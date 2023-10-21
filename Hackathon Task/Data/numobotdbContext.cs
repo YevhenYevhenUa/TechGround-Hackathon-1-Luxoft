@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Hackathon_Task.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Hackathon_Task.Data
 {
-    public partial class numobotdbContext : DbContext
+    public partial class numobotdbContext : IdentityDbContext<IdentityUser>
     {
         public numobotdbContext()
         {
@@ -47,12 +49,14 @@ namespace Hackathon_Task.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5001;Database=numo-bot-db;Username=postgres;Password=1111");
+                optionsBuilder.UseNpgsql(/*"Host=localhost;Port=5001;Database=numo-bot-db;Username=postgres;Password=1111"*/
+                    "Host=localhost; Database=TestDB2; Username=postgres; Password=kasdjij24io");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.HasPostgresEnum("answerchoice", new[] { "beginner", "intermediate", "advanced" })
                 .HasPostgresEnum("choicelevel", new[] { "one", "two", "three", "four" })
                 .HasPostgresEnum("dialogmessagetype", new[] { "welcome", "age_question", "skill_question", "survey_finished" })
